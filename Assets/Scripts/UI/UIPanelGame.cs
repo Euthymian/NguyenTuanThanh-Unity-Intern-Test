@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIPanelGame : MonoBehaviour,IMenu
+{
+    public Text LevelConditionView;
+
+    [SerializeField] private Button btnPause;
+    [SerializeField] private Button btnAutoWin;
+    [SerializeField] private Button btnAutoLose;
+
+    private UIMainManager m_mngr;
+
+    private void Awake()
+    {
+        btnPause.onClick.AddListener(OnClickPause);
+        btnAutoWin.onClick.AddListener(OnClickAutoWin);
+        btnAutoLose.onClick.AddListener(OnClickAutoLose);
+    }
+
+    private void OnClickAutoWin()
+    {
+        m_mngr.GameManager.ActivateAutoWin();
+    }
+
+    private void OnClickAutoLose()
+    {
+        m_mngr.GameManager.ActivateAutoLose();
+    }
+
+
+    private void OnClickPause()
+    {
+        m_mngr.ShowPauseMenu();
+    }
+
+    public void Setup(UIMainManager mngr)
+    {
+        m_mngr = mngr;
+    }
+
+    public void Show()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void Show(GameManager.eLevelMode mode)
+    {
+        this.gameObject.SetActive(true);
+
+        if(mode == GameManager.eLevelMode.TIMER)
+        {
+            btnAutoLose.gameObject.SetActive(false);
+            btnAutoWin.gameObject.SetActive(false);
+        }
+    }
+
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
+    }
+}
